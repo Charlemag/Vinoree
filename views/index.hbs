@@ -1,16 +1,37 @@
-{{!-- <h1>{{title}}</h1>
-<p>Welcome to {{title}}</p> --}}
-{{!-- <h1> Vinorieé </h1> --}}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <p style="background-image: url('/public/images/Vinorieé.jpg');"></p>
-</body>
-</html>
+<div id="form">
+  <form action="/auth/signup" method="POST">
+<div class="mb-3">
+  <label for="formGroupExampleInput" class="form-label"></label>
+  <input name="name" type="text" class="form-control" id="formGroupExampleInput" placeholder="Name">
+</div>
+<div class="mb-3">
+  <label for="formGroupExampleInput2" class="form-label"></label>
+  <input name="email" type="text" class="form-control" id="formGroupExampleInput2" placeholder="Email">
+</div>
+<div class="mb-3">
+  <label for="formGroupExampleInput2" class="form-label"></label>
+  <input name="password" type="password" class="form-control" id="formGroupExampleInput2" placeholder="Password">
+</div>
+
+<button type="submit">Create account</button>
+
+    {{!-- error message will be added here --}}
+  </form>
+
+  </div>
+
+{{#if message}}
+
+<p>{{message}}</p>
+{{/if}}
+
+
+
+
+
+
+
+
+
+
 

@@ -1,13 +1,19 @@
 var createError = require('http-errors');
 var express = require('express');
+var hbs = require("hbs");
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var mongoose = require('mongoose');
 
 var app = express();
 
+require("./config/session.config")(app);
+
+require('dotenv/config');
+
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', __dirname + '/views');
 app.set('view engine', 'hbs');
 
 app.use(logger('dev'));
@@ -19,13 +25,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //Routes: URL Location
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var authRouter = require('./routes/auth.routes');
+var cheeseRouter = require('./routes/cheese');
+var wineRouter = require('./routes/wines');
 
-//Declaring the variable: create for search
+
+//Declaring the variable: 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/auth.routes', authRouter);
+app.use('/auth', authRouter);
+app.use('/cheese', cheeseRouter);
+app.use('/wine', wineRouter)
 
 
 // catch 404 and forward to error handler
@@ -43,5 +52,10 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(x => console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`))
+  .catch(err => console.error('Error connecting to mongo', err));
 
 module.exports = app;

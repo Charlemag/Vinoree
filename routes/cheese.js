@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET Route for Index page. */
+/* GET Cheese listing. */
 router.get('/', (req, res, next) => {
-  res.render('index');
+  res.render('cheese');
 });
 
 module.exports = router;

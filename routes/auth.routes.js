@@ -3,84 +3,86 @@ var router = express.Router();
 
 const User = require('../models/User.model')
 const bcryptjs = require("bcryptjs");
+const saltRounds = 10
 
-const saltRounds = 10;
 
 
-router.get('/signup', (req, res, next) => {
-    res.render('signup');
-});
+router.get('/', (req, res, next) => {
+    res.render('/signup')
+
+})
+
+router.post('/signup', (req, res, next) => {
+
+
+if (!req.body.name || !req.body.email || !req.body.password)
+    {
+        console.log("ISSUE WITH FORM", req.body.name, req.body.email, req.body.password)
+        res.render('/signup', {message: "Sign up here!"})
+        return;
+    }
+
+    const salt = bcryptjs.genSaltSync(saltRounds)
+    const hashedPass = bcryptjs.hashSync(req.body.password, salt)
+
+
+    User.findOne({email: req.body.email})
+        .then((foundUser) => {
+            if (foundUser){
+                console.log("WE'VE FOUND A USER")
+            res.render('/signup', {message: "You're already signed up"})
+            return
+        } else {
+                User.create({
+                    name: req.body.name,
+                    email: req.body.email,
+                    password: hashedPass
+                })
+                .then((createdUser) => {
+                    console.log("This is the created user:", createdUser)
+                    res.redirect('/')
+                })
+                .catch((err) => {
+                    console.log("ERROR ON LINE 46", err)
+                })
+            }
+        })
+        .catch((err) => {
+            console.log("ERROR ON LINE 51", err)
+        })
+})
 
 router.get('/login', (req, res, next) => {
-    res.render('login');
-});
+    res.render('login.hbs')
+})
 
-router.post('/signup', (req, res, next) => {
-    console.log(req.body)
- if (!req.body.email || !req.body.password || !req.body.fullName) {
-    res.render('signup.hbs', {errorMessage : "Sorry you can't have empty fields!"});
-    return;
- }
+router.post('/login', (req, res, next) => {
 
-
- User.findOne({email: req.body.email})
- .then(foundUser => {
-    if (foundUser) {
-        res.render('signup.hbs', { errorMessage : 'Sorry, user with this email already exists'})
+    if (!req.body.email|| !req.body.password) {
+        res.render('login.hbs', {message : "Both fields are required"})
         return;
-    }
-    const hashedPassword = bcryptjs.hashSync(req.body.password)
-
-    return User.create({
-        email: req.body.email,
-        password: hashedPassword,
-        fullName: req.body.fullName
-    })
- })
-  .then((newUser) => {
-    console.log('New user was created', newUser);
-    res.render('login.hbs', {errorMessage : "Your account is created"});
-  })
-  .catch(err => {
-    console.log(err);
-    res.send(err);
-  })
-});
-
-router.post('/signup', (req, res, next) => {
-    if(!req.body.email || ! req.body.password) {
-        res.render('login.hbs', { errorMessage: 'Sorry you forgot email or password.'});
-        return;
-    }
-
-    User.findOne({username: req.body.username})
-    .then( foundUser => {
-        if(!foundUser) {
-            res.render('login.hbs', { errorMessage: 'Sorry user does not exist!'})
-                return;
+    } 
+    
+    User.findOne({email: req.body.email})
+    .then((foundUser) => {
+        if (!foundUser) {
+            res.render('login.hbs', {message: "This User does not exist"})
+        } else {
+            let correctPassword = bcryptjs.compareSync(req.body.password, foundUser.password);
+            if(correctPassword) {
+                req.session.user = foundUser;
+                res.redirect('/')
+            } else {
+                res.render('login.hbs', {message: "Incorrect Password or Email"})
+            }
         }
-         
-        const isPasswordCorrect = bcryptjs.compareSync(req.body.password, foundUser.password)
+    })    
+})
 
-        if(!isPasswordCorrect) {
-            res.render('login.hbs', { errorMessage : "Sorry, wrong password. Try again!"})
-            return;
-        }
+//Logout Route
+// router.get('/logout', (req, res, next) => {
+// req.session.destroy()
+// res.resdirect('/index/login')
+// })
 
-        req.session.user = foundUser;
-
-        res.redirect('/profile')
-    })
-    .catch(err => {
-        console.log(err)
-        res.send(err)
-    })
-});
-
-router.get ('/logout', (req, res, next) => {
-    req.session.destroy(() => {
-        res.redirect('/');
-    })
-});
-
-module.exports = router;
+module.exports = router
