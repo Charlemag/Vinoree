@@ -1,0 +1,19 @@
+<h1>Cheese Detail</h1>        
+<ul class="Wine-group">
+  <li class="list-group-item">{{cheese.name}}Name</li>
+  <li class="list-group-item">Country</li>
+  <li class="list-group-item">Type</li>
+  <li class="list-group-item">Texture</li>
+</ul>
+
+<h2>These are the wine pairings</h2>
+
+{{#each wines}}
+  <h1>{{cheeseId}}WOWWWWWWW</h1>
+    <h1>{{name}}</h1>
+    <h2>{{texture}}</h2>
+    <form action="/user/{{cheeseId}}/{{_id}}/add-favorite" method="post">
+        <button type="submit">Select Pairing</button>
+        </form>
+{{/each}}
+        

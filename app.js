@@ -28,6 +28,7 @@ var indexRouter = require('./routes/index');
 var authRouter = require('./routes/auth.routes');
 var cheeseRouter = require('./routes/cheese');
 var wineRouter = require('./routes/wines');
+var usersRouter = require('./routes/users')
 
 
 //Declaring the variable: 
@@ -35,6 +36,7 @@ app.use('/', indexRouter);
 app.use('/auth', authRouter);
 app.use('/cheese', cheeseRouter);
 app.use('/wine', wineRouter)
+app.use('/user', usersRouter)
 
 
 // catch 404 and forward to error handler

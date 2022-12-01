@@ -16,9 +16,10 @@
 }
 
 body {
+  /* height: 100vh; */
   padding: 50px;
   font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
-  background-image: url('/images/landingImage.jpg');
+  /* background-image: url('/images/landingImage.jpg'); */
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -34,4 +35,16 @@ body {
   margin-left: 35vw;
   margin-right: 35vw;
   padding-top: 25vw;
+}
+
+#landing-page {
+  height: 90vh;
+    background-image: url('/images/landingImage.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+main {
+  margin-top: 10vh;
 }

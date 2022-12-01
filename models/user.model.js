@@ -11,6 +11,10 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
+    },
+    favoritePairing: {
+      wine: {type: Schema.Types.ObjectId, ref: "Wine"},
+      cheese: {type: Schema.Types.ObjectId, ref: "Cheese"},
     }
   },
 );

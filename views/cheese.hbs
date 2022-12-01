@@ -1,1 +1,9 @@
 <h1>Cheese</h1>
+
+{{#each foundCheese}}
+    <h2>{{name}}</h2>
+    <p>{{country}}</p>
+    <p>{{texture}}</p>
+    <img src="{{image}}" alt="cheese image">
+    <a href="/cheese/{{_id}}">Pairings</a>
+{{/each}}
