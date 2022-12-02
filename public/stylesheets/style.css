@@ -16,12 +16,9 @@
 }
 
 body {
-  /* height: 100vh; */
+  background-color: navy;
   padding: 50px;
   font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
-  /* background-image: url('/images/landingImage.jpg'); */
-  background-size: cover;
-  background-repeat: no-repeat;
 }
 
 @media (max-width: 991px) {
@@ -38,12 +35,20 @@ body {
 }
 
 #landing-page {
-  height: 90vh;
+    height: 90vh;
     background-image: url('/images/landingImage.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
+
+/* #login {
+  height: 90vh;
+  background-image: url('/images/landingImage.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+} */
 
 main {
   margin-top: 10vh;

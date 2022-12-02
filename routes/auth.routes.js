@@ -40,7 +40,7 @@ if (!req.body.name || !req.body.email || !req.body.password)
                 })
                 .then((createdUser) => {
                     console.log("This is the created user:", createdUser)
-                    res.redirect('/')
+                    res.redirect('/auth/login')
                 })
                 .catch((err) => {
                     console.log("ERROR ON LINE 46", err)
@@ -71,7 +71,7 @@ router.post('/login', (req, res, next) => {
             let correctPassword = bcryptjs.compareSync(req.body.password, foundUser.password);
             if(correctPassword) {
                 req.session.user = foundUser;
-                res.redirect('/')
+                res.redirect('/user')
             } else {
                 res.render('login.hbs', {message: "Incorrect Password or Email"})
             }
@@ -79,10 +79,9 @@ router.post('/login', (req, res, next) => {
     })    
 })
 
-//Logout Route
-// router.get('/logout', (req, res, next) => {
-// req.session.destroy()
-// res.resdirect('/index/login')
-// })
+router.get('/logout', (req, res, next) => {
+req.session.destroy()
+res.redirect('/auth/login')
+})
 
 module.exports = router

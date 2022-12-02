@@ -27,7 +27,7 @@ router.post('/:cheeseId/:wineId/add-favorite', (req, res, next) => {
 })
 
 router.get('/', (req, res, next) => {
-  User.findOne(req.session.user_id)
+  User.findOne({ _id: req.session.user._id})
   .populate({
     path: 'favoritePairing.wine'
   })
